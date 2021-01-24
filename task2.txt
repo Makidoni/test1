@@ -1,0 +1,61 @@
+/* создание таблиц*/
+CREATE TABLE users(
+    id INTEGER(50) NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    login VARCHAR(25),
+    password VARCHAR(50),
+    object_id INTEGER(50) 
+); 
+CREATE TABLE objects(
+    id INTEGER(50) NOT NULL,
+    name VARCHAR(25),
+    status VARCHAR(50)
+);
+
+
+ALTER TABLE objects
+ADD FOREIGN KEY (id) REFERENCES users(id);
+
+
+/* тест -данные */
+INSERT INTO users(login, password, object_id) 
+VALUES ('Word', 'Word1', '1'), 
+('Advantage', 'Advantage1', '2'), 
+('Everyone', 'Everyone1', '3'); 
+INSERT INTO users(login, password)
+VALUES('Library', 'Library1'),       /*нет object_id*/
+('Tyneside', 'Tyneside1');           /*нет object_id*/
+INSERT INTO users (login, object_id) 
+VALUES('Babb', '18'),                /*нет password*/
+('Vacher', '2');                     /*нет password*/
+INSERT INTO users(login, password, object_id) 
+VALUES('Utton', 'Utton1', '15'), 
+('Rynn', 'Rynn1', '17'); 
+INSERT INTO users(login, password) 
+VALUES ('Sabar', 'Sabar1');          /*нет object_id*/
+
+
+INSERT INTO objects(id, NAME, status) 
+VALUES ('1', 'Kyprianou', 'online'), 
+('2', 'Abbay', 'offline'); 
+INSERT INTO objects(id, NAME) 
+VALUES ('3', 'Cyrus'),              /*нет status*/
+('4', 'Daber');                     /*нет status*/
+INSERT INTO objects(id, NAME, status) 
+VALUES ('6', 'Dabb', 'offline'), 
+('10', 'Lyttle', 'online'); 
+
+
+/*само задание*/
+select users.id, objects.id, object_id, login, password, name, status 
+from users
+join objects 
+on users.id = objects.id
+where object_id IS NOT NULL
+order by object_id
+
+
+/* не должно вывести следующие ID
+4,5,7,8,9,11
+//выведет следующие ID:
+1,2,3,6 */
+
